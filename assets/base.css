@@ -8,6 +8,42 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+
+.bg-collet-purple\/10 {
+        background-color: 
+ color-mix(in oklab,#8b5fbf 10%, transparent);
+}
+
+.shadow-refined {
+    box-shadow: 0 4px 6px #ff6b9d14, 0 1px 3px #ff6b9d1f;
+}
+
+.bg-white\/80 {
+        background-color: 
+ color-mix(in oklab, #fff 80%, transparent);
+}
+
+.bg-collet-blue\/10 {
+        background-color: 
+ color-mix(in oklab, #4fc3f7 10%, transparent);
+}
+
+.bg-collet-pink\/10 {
+        background-color: 
+ color-mix(in oklab, #ff6b9d 10%, transparent);
+}
+
+.bg-collet-pink {
+    background-color: #ff6b9d;
+}
+
+.bg-collet-blue {
+    background-color: #4fc3f7;
+}
+
+
+
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
