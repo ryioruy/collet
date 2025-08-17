@@ -1,0 +1,850 @@
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
+  {%- style -%}
+    @media screen and (max-width: 749px) {
+      #Banner-{{ section.id }}::before,
+      #Banner-{{ section.id }} .banner__media::before,
+      #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {
+        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
+        content: '';
+        display: block;
+      }
+    }
+
+    @media screen and (min-width: 750px) {
+      #Banner-{{ section.id }}::before,
+      #Banner-{{ section.id }} .banner__media::before {
+        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
+        content: '';
+        display: block;
+      }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
+{% comment %} {%- style -%}
+  #Banner-{{ section.id }}::after {
+    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+  }
+{%- endstyle -%} {% endcomment %}
+
+{%- liquid
+  assign full_width = '100vw'
+  assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+
+  if section.settings.image_behavior == 'ambient'
+    assign half_width = '60vw'
+    assign full_width = '120vw'
+    assign stacked_sizes = '(min-width: 750px) 60vw, 120vw'
+    assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
+  elsif section.settings.image_behavior == 'fixed' or section.settings.image_behavior == 'zoom-in'
+    assign half_width = '100vw'
+    assign stacked_sizes = '100vw'
+  else
+    assign half_width = '50vw'
+    assign stacked_sizes = '(min-width: 750px) 50vw, 100vw'
+  endif
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+<div id="container">
+  <div class="tailwind">
+<div
+  {% comment %} id="Banner-{{ section.id }}" {% endcomment %}
+   id="custom-carousel"
+  class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+   <div class="custom-carousel-container custom-carousel-track relative rounded-3xl overflow-hidden shadow-refined-lg transition-all duration-500 opacity-100 vibrant-hover cursor-pointer group">
+    <div class="absolute inset-0 bg-gradient-to-r from-collet-purple via-collet-lavender to-collet-purple-light"></div>
+    <div class="relative custom-carousel-slide z-10 p-8 lg-p-12 flex flex-col lg-flex-row items-center space-y-6 lg-space-y-0 lg-space-x-12">
+      <div class="flex-1 text-center lg-text-left">
+        <div class="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full mb-4 border border-white/40 vibrant-hover shadow-refined-mint">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift w-4 h-4 text-collet-pink animate-bounce" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg>
+          <span class="text-collet-dark font-semibold text-sm">50 Points</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-4 h-4 text-collet-pink animate-pulse" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg>
+          <h2 class="text-3xl lg-text-4xl font-bold text-white mb-4 leading-tight drop-shadow-sm">Share Your Before/After Photos 📸</h2>
+          <p class="text-xl text-white/95 mb-2 font-medium drop-shadow-sm">Both get exclusive discounts</p>
+          <p class="text-white/85 mb-8 text-lg leading-relaxed drop-shadow-sm">Get rewarded for helping others on their beauty journey</p>
+          <div class="flex flex-col sm-flex-row items-center space-y-4 sm-space-y-0 sm-space-x-4"><button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 has-[&gt;svg]:px-3 bg-white text-collet-dark hover:bg-white/95 px-8 py-4 rounded-2xl font-semibold shadow-refined transition-all duration-300 vibrant-hover group"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap w-5 h-5 mr-2 text-collet-mint" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>Upload Photos<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button><button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 h-9 has-[&gt;svg]:px-3 text-white hover:bg-white/10 px-6 py-4 rounded-2xl font-medium transition-all duration-300 vibrant-hover border border-white/30 hover:border-white/50">Learn More</button></div>
+          <div class="flex items-center justify-center lg-justify-start space-x-8 mt-8">
+            <div class="flex items-center space-x-2 text-white/90">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-5 h-5 text-collet-sunshine fill-current drop-shadow-sm" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+                </path>
+              </svg>
+              <span class="font-medium drop-shadow-sm">4.9/5</span>
+            </div>
+            <div class="flex items-center space-x-2 text-white/90">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart w-5 h-5 text-collet-rose fill-current drop-shadow-sm" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span class="font-medium drop-shadow-sm">
+                12.3K Likes
+              </span>
+            </div>
+            <div class="flex items-center space-x-2 text-white/90">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle w-5 h-5 text-collet-mint drop-shadow-sm" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg><span class="font-medium drop-shadow-sm">
+                2.1K Reviews
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="relative lg-w-80 w-full">
+        <div class="relative rounded-2xl overflow-hidden shadow-refined-lg vibrant-hover">
+          <img src="{{ section.settings.image_2 | img_url: 'master' }}" width="100%" height="500px" alt="Slide 1">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-full shadow-refined"><div class="flex items-center space-x-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-3 h-3 text-collet-mint" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4">
+            </path>
+            <path d="M22 5h-4">
+              </path>
+              <path d="M4 17v2">
+              </path>
+              <path d="M5 18H3">
+                </path>
+              </svg>
+              <span class="text-xs font-medium text-collet-dark">
+                  Korean Beauty
+                </span>
+              </div>
+            </div>
+            <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 animate-bounce">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart w-4 h-4 text-white" aria-hidden="true">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
+                </path>
+              </svg>
+            </div>
+            <div class="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 animate-pulse">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-4 h-4 text-white" aria-hidden="true">
+                <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      {% comment %} <div class="custom-carousel-track">
+        <div class="custom-carousel-slide">
+          <img src="{{ section.settings.image_2 | img_url: 'master' }}" width="100%" height="500px" alt="Slide 1">
+        </div>
+        <div class="custom-carousel-slide">
+          <img src="{{ section.settings.image_2 | img_url: 'master' }}" width="100%" height="500px" alt="Slide 2">
+        </div>
+        <div class="custom-carousel-slide">
+          <img src="{{ section.settings.image_2 | img_url: 'master' }}" width="100%" height="500px" alt="Slide 3">
+        </div>
+      </div>  {% endcomment %}
+    </div>
+    <button class="custom-carousel-btn prev">&#10094;</button>
+    <button class="custom-carousel-btn next">&#10095;</button>
+  </div>
+
+<style>
+    .custom-carousel-container {
+      position: relative;
+      overflow: hidden;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .custom-carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .custom-carousel-slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .custom-carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    .custom-carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+    .custom-carousel-btn.prev { left: 10px; }
+    .custom-carousel-btn.next { right: 10px; }
+
+    .banner{
+      opacity: 1;
+      transform: none;
+    }
+    @media screen and (min-width: 64rem) {
+      .lg-w-80 {
+        width: calc(0.25rem * 80) !important; /* equals 20rem */
+      }
+
+      .lg-p-12{
+        padding: 0.25rem*12 !important;
+      }
+
+      .lg-flex-row{
+        flex-direction: row !important;
+      }
+
+      .lg-justify-start{
+        justify-content: flex-start !important;
+      }
+
+      .lg-text-left{
+        text-align: left !important;
+      }
+
+      .lg-text-4xl {
+        font-size: 2.25rem !important;
+        line-height: 1.25, 2.5/1.25;
+      }
+    }
+
+    @media screen and (min-width: 40rem) {
+      .sm-flex-row {
+        flex-direction: row !important;
+      }
+    }
+    
+    .z-index{
+      z-index: 10;
+    }
+
+    .absolute {
+      position: absolute;
+    }
+
+    .inset-0 {
+      inset: 0;
+    }
+
+    .opacity-20{
+      opacity: .2;
+    }
+
+    .flex-1 {
+      flex: 1
+    }
+
+    .text-white {
+      color: #fff;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .drop-shadow-sm{
+      --tw-drop-shadow-size: drop-shadow(0 1px 2px #00000026);
+      --tw-drop-shadow: drop-shadow(0 1px 2px #00000026);
+    }
+
+    .w-full{
+      width: 100%
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .vibrant-hover {
+      transition: all .3 cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .shadow-refined-lg {
+        box-shadow: 0 10px 25px #ff6b9d1f, 0 4px 10px #ff6b9d14;
+    }
+
+    .rounded-2xl {
+        border-radius: 1rem;
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    .justify-center {
+        justify-content: center;
+    }
+
+    .items-center {
+        align-items: center;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .mt-8 {
+        margin-top: calc(0.25rem * 8);
+    }
+
+
+  </style>
+
+
+
+</div>
+
+<div style="opacity: 1;">
+  <div class="relative bg-gradient-to-br from-collet-cream via-white to-collet-pink-light overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-20 left-10 w-32 h-32 bg-collet-pink/10 rounded-full blur-3xl">
+      </div>
+      <div class="absolute bottom-20 right-10 w-40 h-40 bg-collet-blue/10 rounded-full blur-3xl">
+      </div>
+      <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-collet-purple/10 rounded-full blur-2xl">
+      </div>
+    </div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+      <div class="text-center mb-8 sm:mb-12">
+        <div class="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-4 sm:mb-6 shadow-refined"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-blue" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-xs sm:text-sm font-medium text-collet-dark">Verified Foreigners Only</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 17.5v-11"></path></svg></div><h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-collet-dark mb-4 sm:mb-6 leading-tight">Transparent Medical Tourism<br class="hidden sm:block"><span class="text-collet-pink">in Korea</span></h1><p class="text-base sm:text-lg lg:text-xl text-collet-warm-gray mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2">Experience world-class beauty treatments with verified clinics, independent translators, and authentic reviews from foreign patients.</p><div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-10 px-2"><span data-slot="badge" class="inline-flex items-center justify-center rounded-md w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-primary/90 bg-gradient-to-r from-collet-mint to-collet-blue text-white border-0 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-base font-semibold shadow-refined-mint"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" aria-hidden="true"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg><span class="hidden sm:inline">Complimentary Translator Services</span><span class="sm:hidden">Free Translator</span></span><span data-slot="badge" class="inline-flex items-center justify-center rounded-md border font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-collet-blue/10 text-collet-blue border-collet-blue/20 px-3 sm:px-4 py-2 text-xs sm:text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><span class="hidden sm:inline">Verified Clinics Only</span><span class="sm:hidden">Verified Clinics</span></span><span data-slot="badge" class="inline-flex items-center justify-center rounded-md border font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-collet-purple/10 text-collet-purple border-collet-purple/20 px-3 sm:px-4 py-2 text-xs sm:text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 17.5v-11"></path></svg><span class="hidden sm:inline">Verified Tax-Free Receipt Reviews</span><span class="sm:hidden">Verified Reviews</span></span></div></div><div class="max-w-5xl mx-auto mb-8 sm:mb-12"><div class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-refined-lg p-4 sm:p-6 lg:p-8"><h3 class="text-lg sm:text-xl lg:text-2xl font-semibold text-collet-dark mb-4 sm:mb-6 text-center">How do you want to book?</h3><div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8"><button class="flex-1 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 bg-collet-blue/10 text-collet-blue hover:bg-collet-blue/20"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 sm:mb-2" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><div class="font-semibold text-sm sm:text-base">Verified Clinics</div><div class="text-xs sm:text-sm opacity-90 hidden sm:block">Includes complimentary translator</div><div class="text-xs opacity-90 sm:hidden">Free translator included</div></button><button class="flex-1 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 bg-collet-pink/10 text-collet-pink hover:bg-collet-pink/20"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 sm:mb-2" aria-hidden="true"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg><div class="font-semibold text-sm sm:text-base">Translator Only</div><div class="text-xs sm:text-sm opacity-90">Independent translators</div></button><button class="flex-1 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 bg-gradient-to-r from-collet-blue to-collet-pink text-white shadow-refined-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 sm:mb-2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg><div class="font-semibold text-sm sm:text-base">Compare All Options</div><div class="text-xs sm:text-sm opacity-90 hidden sm:block">Full transparency &amp; choice</div><div class="text-xs opacity-90 sm:hidden">Compare all</div></button></div><div class="relative mb-4 sm:mb-6"><div class="flex flex-col gap-3 sm:gap-4"><div class="relative"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-collet-warm-gray w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><input type="text" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 flex h-9 w-full min-w-0 px-3 transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10 sm:pl-12 pr-4 py-3 sm:py-4 text-sm sm:text-lg rounded-xl sm:rounded-2xl border-2 border-collet-pink/20 focus:border-collet-pink bg-white" placeholder="Search procedures, clinics, or treatments..." value=""></div><div class="flex flex-col sm:flex-row gap-3"><div class="flex items-center space-x-2 bg-collet-cream px-3 sm:px-4 py-2 rounded-xl border border-collet-pink/20"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg><span class="text-collet-dark font-medium text-sm sm:text-base">📍 Gangnam</span></div><button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 has-[&gt;svg]:px-3 bg-collet-pink hover:bg-collet-pink-dark text-white px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-refined-pink flex-1 sm:flex-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>Search</button></div></div></div><div class="flex flex-wrap justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-collet-warm-gray"><div class="flex items-center space-x-1 sm:space-x-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-check w-3 h-3 sm:w-4 sm:h-4 text-collet-blue" aria-hidden="true"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span class="whitespace-nowrap">500+ Verified Clinics</span></div><div class="flex items-center space-x-1 sm:space-x-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages w-3 h-3 sm:w-4 sm:h-4 text-collet-pink" aria-hidden="true"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg><span class="whitespace-nowrap">200+ Independent Translators</span></div><div class="flex items-center space-x-1 sm:space-x-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3 h-3 sm:w-4 sm:h-4 text-collet-sunshine" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg><span class="whitespace-nowrap">10,000+ Verified Reviews</span></div></div></div></div><div class="max-w-4xl mx-auto mt-12 sm:mt-16 text-center"><h3 class="text-lg sm:text-xl lg:text-2xl font-semibold text-collet-dark mb-6 sm:mb-8 px-4">Why Foreigners Trust Collet</h3><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-4"><div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-refined"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-blue/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-6 h-6 sm:w-8 sm:h-8 text-collet-blue" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div><h4 class="font-semibold text-collet-dark mb-2 sm:mb-3 text-sm sm:text-base">No Commission Bias</h4><p class="text-collet-warm-gray text-xs sm:text-sm leading-relaxed">Translators work independently - no clinic commissions means no upselling pressure</p></div><div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-refined"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-pink/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt w-6 h-6 sm:w-8 sm:h-8 text-collet-pink" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 17.5v-11"></path></svg></div><h4 class="font-semibold text-collet-dark mb-2 sm:mb-3 text-sm sm:text-base">Verified Reviews Only</h4><p class="text-collet-warm-gray text-xs sm:text-sm leading-relaxed">Only foreigners with Korean tax receipts can review - no fake reviews</p></div><div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-refined sm:col-span-2 md:col-span-1"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-purple/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe w-6 h-6 sm:w-8 sm:h-8 text-collet-purple" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div><h4 class="font-semibold text-collet-dark mb-2 sm:mb-3 text-sm sm:text-base">Full Transparency</h4><p class="text-collet-warm-gray text-xs sm:text-sm leading-relaxed">Mix and match any clinic with any translator for complete freedom of choice</p></div></div></div></div></div></div>
+
+
+
+<div style="opacity: 1; transform: none;"><div class="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-white via-collet-cream to-collet-purple-light"><div class="container mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-12 sm:mb-16"><span data-slot="badge" class="inline-flex items-center justify-center rounded-md border font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-collet-pink/10 text-collet-pink border-collet-pink/20 px-3 sm:px-4 py-2 mb-4 sm:mb-6 text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-3 h-3 sm:w-4 sm:h-4 mr-2" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>How Collet Works</span><h2 class="text-2xl sm:text-3xl lg:text-5xl font-bold text-collet-dark mb-4 sm:mb-6 px-4">Transparency in 4 Simple Steps</h2><p class="text-base sm:text-lg lg:text-xl text-collet-warm-gray max-w-3xl mx-auto px-4">No hidden fees, no commission bias, no fake reviews. Just honest medical tourism the way it should be.</p></div><div class="max-w-6xl mx-auto"><div class="flex flex-col lg:flex-row justify-center items-center mb-6 sm:mb-8 gap-2 sm:gap-4"><div class="flex items-center w-full sm:w-auto"><button class="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 w-full sm:w-auto bg-collet-blue text-white shadow-refined-blue"><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center bg-white/20"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search w-5 h-5 sm:w-6 sm:h-6 text-white" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg></div><div class="text-left"><div class="font-semibold text-sm sm:text-base">Search &amp; Compare</div><div class="text-xs sm:text-sm text-white/80">Step 1</div></div></button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-6 h-6 text-collet-warm-gray mx-4 hidden lg:block" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div><div class="flex items-center w-full sm:w-auto"><button class="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 w-full sm:w-auto bg-collet-pink/10 text-collet-pink hover:bg-collet-pink hover:text-white"><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-5 h-5 sm:w-6 sm:h-6 text-collet-pink" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg></div><div class="text-left"><div class="font-semibold text-sm sm:text-base">Choose Your Combination</div><div class="text-xs sm:text-sm text-gray-600">Step 2</div></div></button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-6 h-6 text-collet-warm-gray mx-4 hidden lg:block" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div><div class="flex items-center w-full sm:w-auto"><button class="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 w-full sm:w-auto bg-collet-purple/10 text-collet-purple hover:bg-collet-purple hover:text-white"><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-5 h-5 sm:w-6 sm:h-6 text-collet-purple" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg></div><div class="text-left"><div class="font-semibold text-sm sm:text-base">Book with Confidence</div><div class="text-xs sm:text-sm text-gray-600">Step 3</div></div></button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-6 h-6 text-collet-warm-gray mx-4 hidden lg:block" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div><div class="flex items-center w-full sm:w-auto"><button class="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 w-full sm:w-auto bg-collet-mint/10 text-collet-mint hover:bg-collet-mint hover:text-white"><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center bg-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-receipt w-5 h-5 sm:w-6 sm:h-6 text-collet-mint" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 17.5v-11"></path></svg></div><div class="text-left"><div class="font-semibold text-sm sm:text-base">Verified Experience</div><div class="text-xs sm:text-sm text-gray-600">Step 4</div></div></button></div></div><div class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-refined-lg overflow-hidden"><div><div class="p-4 sm:p-6 lg:p-8"><div class="flex flex-col lg:flex-row items-start lg:items-center gap-4 sm:gap-6"><div class="flex items-center space-x-3 sm:space-x-4 lg:w-80 flex-shrink-0"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-blue/10 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-refined-blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search w-6 h-6 sm:w-8 sm:h-8 text-collet-blue" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg></div><div><h3 class="text-lg sm:text-xl font-bold text-collet-dark mb-1">Search &amp; Compare</h3><span data-slot="badge" class="inline-flex items-center justify-center rounded-md px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-primary/90 bg-collet-blue/10 text-collet-blue border-0 text-xs">Step 1 of 4</span></div></div><div class="flex-1"><p class="text-collet-warm-gray leading-relaxed mb-3 sm:mb-4 text-sm sm:text-base">Find verified clinics and independent translators</p><button class="inline-flex items-center space-x-2 text-collet-blue hover:bg-collet-blue hover:text-white px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl transition-all duration-300 border border-collet-blue/20"><span class="text-xs sm:text-sm font-medium">View Details</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-3 h-3 sm:w-4 sm:h-4" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></div><div class="grid grid-cols-2 gap-3 sm:gap-4 lg:w-48 flex-shrink-0 w-full sm:w-auto"><div class="text-center bg-collet-blue/5 rounded-lg p-2 sm:p-3"><div class="text-lg sm:text-2xl font-bold text-collet-blue mb-1">500+</div><div class="text-xs text-collet-warm-gray">Clinics</div></div><div class="text-center bg-collet-pink/5 rounded-lg p-2 sm:p-3"><div class="text-lg sm:text-2xl font-bold text-collet-pink mb-1">10K+</div><div class="text-xs text-collet-warm-gray">Reviews</div></div></div></div></div></div></div></div><div class="text-center mt-8 sm:mt-12 px-4"><button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 h-9 has-[&gt;svg]:px-3 bg-gradient-to-r from-collet-pink to-collet-purple text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-refined-lg hover:shadow-refined-pink transition-all duration-300 w-full sm:w-auto"><span class="hidden sm:inline">Start Your Verified Journey</span><span class="sm:hidden">Start Your Journey</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4 sm:w-5 sm:h-5 ml-2" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button><p class="text-xs sm:text-sm text-collet-warm-gray mt-3 sm:mt-4">Join thousands of satisfied foreign patients who chose transparency</p></div></div></div></div>
+        
+
+
+
+
+
+
+<div style="opacity: 1; transform: none;"><div class="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-collet-cream via-white to-collet-blue-light"><div class="container mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-12 sm:mb-16"><span data-slot="badge" class="inline-flex items-center justify-center rounded-md border font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-collet-blue/10 text-collet-blue border-collet-blue/20 px-3 sm:px-4 py-2 mb-4 sm:mb-6 text-xs sm:text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-3 h-3 sm:w-4 sm:h-4 mr-2" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>Why Collet is Different</span><h2 class="text-2xl sm:text-3xl lg:text-5xl font-bold text-collet-dark mb-4 sm:mb-6 px-4">Traditional Agencies vs. <span class="text-collet-pink">Collet</span></h2><p class="text-base sm:text-lg lg:text-xl text-collet-warm-gray max-w-3xl mx-auto px-4">See how our transparent model eliminates the problems that have plagued medical tourism</p></div><div class="max-w-6xl mx-auto"><div class="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-refined-lg overflow-hidden"><div class="hidden lg:grid grid-cols-3 gap-6 p-6 bg-gradient-to-r from-collet-pink-light to-collet-blue-light"><div class="text-center"><h3 class="font-semibold text-collet-dark">Feature</h3></div><div class="text-center"><div class="flex items-center justify-center space-x-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-5 h-5 text-red-500" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><h3 class="font-semibold text-collet-dark">Traditional Agencies</h3></div><p class="text-sm text-red-600">Commission-based model</p></div><div class="text-center"><div class="flex items-center justify-center space-x-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-5 h-5 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><h3 class="font-semibold text-collet-dark">Collet Platform</h3></div><p class="text-sm text-collet-pink">Transparency-first model</p></div></div><div class="lg:hidden p-4 sm:p-6 bg-gradient-to-r from-collet-pink-light to-collet-blue-light text-center"><h3 class="font-semibold text-collet-dark text-lg">Comparison Overview</h3><p class="text-sm text-collet-warm-gray mt-1">See how Collet differs from traditional agencies</p></div><div class="divide-y divide-gray-100"><div class="p-4 sm:p-6 hover:bg-gray-50/50 transition-colors duration-200"><div class="hidden lg:grid grid-cols-3 gap-6"><div class="flex items-center"><h4 class="font-semibold text-collet-dark">Translator Independence</h4></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-500" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Tied to clinics via commission</p><p class="text-sm text-gray-600">Translators earn from clinic referrals</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">100% independent translators</p><p class="text-sm text-gray-600">Work only for you, no clinic bias</p></div></div></div><div class="lg:hidden space-y-4"><h4 class="font-semibold text-collet-dark text-lg mb-3">Translator Independence</h4><div class="space-y-3"><div class="bg-red-50 border border-red-100 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-500" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-4 h-4 text-red-500" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><span class="text-sm font-medium text-red-600">Traditional</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Tied to clinics via commission</p><p class="text-xs text-gray-600">Translators earn from clinic referrals</p></div></div></div><div class="bg-collet-pink/5 border border-collet-pink/20 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-sm font-medium text-collet-pink">Collet</span></div><p class="font-medium text-gray-800 mb-1 text-sm">100% independent translators</p><p class="text-xs text-gray-600">Work only for you, no clinic bias</p></div></div></div></div></div></div><div class="p-4 sm:p-6 hover:bg-gray-50/50 transition-colors duration-200"><div class="hidden lg:grid grid-cols-3 gap-6"><div class="flex items-center"><h4 class="font-semibold text-collet-dark">Pricing Transparency</h4></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-500" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Hidden markup &amp; commission fees</p><p class="text-sm text-gray-600">20-30% agency commission included</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Direct clinic pricing + translator fee</p><p class="text-sm text-gray-600">No hidden markups or commissions</p></div></div></div><div class="lg:hidden space-y-4"><h4 class="font-semibold text-collet-dark text-lg mb-3">Pricing Transparency</h4><div class="space-y-3"><div class="bg-red-50 border border-red-100 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-500" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-4 h-4 text-red-500" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><span class="text-sm font-medium text-red-600">Traditional</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Hidden markup &amp; commission fees</p><p class="text-xs text-gray-600">20-30% agency commission included</p></div></div></div><div class="bg-collet-pink/5 border border-collet-pink/20 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-sm font-medium text-collet-pink">Collet</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Direct clinic pricing + translator fee</p><p class="text-xs text-gray-600">No hidden markups or commissions</p></div></div></div></div></div></div><div class="p-4 sm:p-6 hover:bg-gray-50/50 transition-colors duration-200"><div class="hidden lg:grid grid-cols-3 gap-6"><div class="flex items-center"><h4 class="font-semibold text-collet-dark">Review Authenticity</h4></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-4 h-4 text-red-500" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Mixed reviews (locals + foreigners)</p><p class="text-sm text-gray-600">Potential fake Korean reviews</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Foreign passport + tax receipt verified</p><p class="text-sm text-gray-600">Only real foreign patient reviews</p></div></div></div><div class="lg:hidden space-y-4"><h4 class="font-semibold text-collet-dark text-lg mb-3">Review Authenticity</h4><div class="space-y-3"><div class="bg-red-50 border border-red-100 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-triangle-alert w-4 h-4 text-red-500" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-4 h-4 text-red-500" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><span class="text-sm font-medium text-red-600">Traditional</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Mixed reviews (locals + foreigners)</p><p class="text-xs text-gray-600">Potential fake Korean reviews</p></div></div></div><div class="bg-collet-pink/5 border border-collet-pink/20 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-sm font-medium text-collet-pink">Collet</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Foreign passport + tax receipt verified</p><p class="text-xs text-gray-600">Only real foreign patient reviews</p></div></div></div></div></div></div><div class="p-4 sm:p-6 hover:bg-gray-50/50 transition-colors duration-200"><div class="hidden lg:grid grid-cols-3 gap-6"><div class="flex items-center"><h4 class="font-semibold text-collet-dark">Booking Flexibility</h4></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-500" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Package deals only</p><p class="text-sm text-gray-600">Forced clinic-translator bundles</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Mix &amp; match any combination</p><p class="text-sm text-gray-600">Choose any clinic + any translator</p></div></div></div><div class="lg:hidden space-y-4"><h4 class="font-semibold text-collet-dark text-lg mb-3">Booking Flexibility</h4><div class="space-y-3"><div class="bg-red-50 border border-red-100 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 text-red-500" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-4 h-4 text-red-500" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><span class="text-sm font-medium text-red-600">Traditional</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Package deals only</p><p class="text-xs text-gray-600">Forced clinic-translator bundles</p></div></div></div><div class="bg-collet-pink/5 border border-collet-pink/20 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-sm font-medium text-collet-pink">Collet</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Mix &amp; match any combination</p><p class="text-xs text-gray-600">Choose any clinic + any translator</p></div></div></div></div></div></div><div class="p-4 sm:p-6 hover:bg-gray-50/50 transition-colors duration-200"><div class="hidden lg:grid grid-cols-3 gap-6"><div class="flex items-center"><h4 class="font-semibold text-collet-dark">Language Support Quality</h4></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4 text-red-500" aria-hidden="true"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Sales-focused translators</p><p class="text-sm text-gray-600">Encouraged to upsell procedures</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages w-4 h-4 text-collet-pink" aria-hidden="true"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></div></div><div><p class="font-medium text-gray-800 mb-1">Translation-focused professionals</p><p class="text-sm text-gray-600">Paid by you, focused on your needs</p></div></div></div><div class="lg:hidden space-y-4"><h4 class="font-semibold text-collet-dark text-lg mb-3">Language Support Quality</h4><div class="space-y-3"><div class="bg-red-50 border border-red-100 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-red-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4 text-red-500" aria-hidden="true"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building2 lucide-building-2 w-4 h-4 text-red-500" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path><path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path></svg><span class="text-sm font-medium text-red-600">Traditional</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Sales-focused translators</p><p class="text-xs text-gray-600">Encouraged to upsell procedures</p></div></div></div><div class="bg-collet-pink/5 border border-collet-pink/20 rounded-lg p-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-7 h-7 rounded-full bg-collet-pink/10 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages w-4 h-4 text-collet-pink" aria-hidden="true"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></div></div><div class="flex-1"><div class="flex items-center space-x-2 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 text-collet-pink" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span class="text-sm font-medium text-collet-pink">Collet</span></div><p class="font-medium text-gray-800 mb-1 text-sm">Translation-focused professionals</p><p class="text-xs text-gray-600">Paid by you, focused on your needs</p></div></div></div></div></div></div></div></div></div><div class="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto px-4"><div class="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-refined text-center"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-pink/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-6 h-6 sm:w-8 sm:h-8 text-collet-pink" aria-hidden="true"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div><h4 class="font-semibold text-collet-dark mb-2 text-sm sm:text-base">Save 20-30%</h4><p class="text-collet-warm-gray text-xs sm:text-sm">No agency commissions means direct clinic pricing</p></div><div class="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-refined text-center"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-blue/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-6 h-6 sm:w-8 sm:h-8 text-collet-blue" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div><h4 class="font-semibold text-collet-dark mb-2 text-sm sm:text-base">100% Transparency</h4><p class="text-collet-warm-gray text-xs sm:text-sm">Every cost clearly itemized, no hidden fees</p></div><div class="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-xl sm:rounded-2xl shadow-refined text-center sm:col-span-2 md:col-span-1"><div class="w-12 h-12 sm:w-16 sm:h-16 bg-collet-purple/10 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-6 h-6 sm:w-8 sm:h-8 text-collet-purple" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg></div><h4 class="font-semibold text-collet-dark mb-2 text-sm sm:text-base">Verified Quality</h4><p class="text-collet-warm-gray text-xs sm:text-sm">Only real foreign patient reviews with tax receipts</p></div></div><div class="text-center mt-8 sm:mt-12 px-4"><button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 h-9 has-[&gt;svg]:px-3 bg-gradient-to-r from-collet-pink to-collet-blue text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-refined-lg hover:shadow-refined-pink transition-all duration-300 w-full sm:w-auto"><span class="hidden sm:inline">Experience True Transparency</span><span class="sm:hidden">Try Transparent Booking</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4 sm:w-5 sm:h-5 ml-2" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button><p class="text-xs sm:text-sm text-collet-warm-gray mt-3 sm:mt-4">No commission bias • No hidden fees • No fake reviews</p></div></div></div></div>
+
+
+
+
+
+  {% comment %} <script>
+    (function(){
+      const carousel = document.getElementById('custom-carousel');
+      const track = carousel.querySelector('.custom-carousel-track');
+      const slides = Array.from(track.children);
+      const nextButton = carousel.querySelector('.next');
+      const prevButton = carousel.querySelector('.prev');
+      let currentIndex = 0;
+      let intervalTime = 3000; // 3 seconds
+      let autoPlayTimer;
+
+      function updateSlidePosition() {
+        track.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+      }
+
+      function goToNext() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlidePosition();
+      }
+
+      function goToPrev() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateSlidePosition();
+      }
+
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = setInterval(goToNext, intervalTime);
+      }
+
+      function stopAutoPlay() {
+        clearInterval(autoPlayTimer);
+      }
+
+      nextButton.addEventListener('click', () => {
+        goToNext();
+        startAutoPlay(); // restart autoplay after manual change
+      });
+
+      prevButton.addEventListener('click', () => {
+        goToPrev();
+        startAutoPlay();
+      });
+
+      // Start autoplay on load
+      startAutoPlay();
+    })();
+  </script> {% endcomment %}
+
+
+
+<div
+  id="Banner-{{ section.id }}"
+  class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  {%- if section.settings.image != blank -%}
+    <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} 
+      placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}
+      {% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}
+       {% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      {%- liquid
+        assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+        if section.settings.image_2 != blank
+          assign image_class = 'banner__media-image-half'
+        endif
+        if section.settings.image_2 != blank and section.settings.stack_images_on_mobile
+          assign sizes = stacked_sizes
+        elsif section.settings.image_2 != blank
+          assign sizes = half_width
+        else
+          assign sizes = full_width
+        endif
+      -%}
+      {{
+        section.settings.image
+        | image_url: width: 3840
+        | image_tag:
+          width: section.settings.image.width,
+          height: image_height,
+          class: image_class,
+          sizes: sizes,
+          widths: widths,
+          fetchpriority: fetch_priority
+      }}
+    </div>
+  {%- elsif section.settings.image_2 == blank -%}
+    <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+  {%- endif -%}
+  {%- if section.settings.image_2 != blank -%}
+    <div class="banner__media media{% if section.settings.image != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      {%- liquid
+        assign image_height_2 = section.settings.image_2.width | divided_by: section.settings.image_2.aspect_ratio
+        if section.settings.image != blank
+          assign image_class_2 = 'banner__media-image-half'
+        endif
+        if section.settings.image != blank and section.settings.stack_images_on_mobile
+          assign sizes = stacked_sizes
+        elsif section.settings.image_2 != blank
+          assign sizes = half_width
+        else
+          assign sizes = full_width
+        endif
+      -%}
+      {{
+        section.settings.image_2
+        | image_url: width: 3840
+        | image_tag:
+          width: section.settings.image_2.width,
+          height: image_height_2,
+          class: image_class_2,
+          sizes: sizes,
+          widths: widths,
+          fetchpriority: fetch_priority
+      }}
+    </div>
+  {%- endif -%}
+  <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            <h2
+              class="banner__heading inline-richtext {{ block.settings.heading_size }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.heading }}
+            </h2>
+          {%- when 'text' -%}
+            <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          {%- when 'buttons' -%}
+            <div
+              class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.button_label_1 != blank -%}
+                <a
+                  {% if block.settings.button_link_1 == blank %}
+                    role="link" aria-disabled="true"
+                  {% else %}
+                    href="{{ block.settings.button_link_1 }}"
+                  {% endif %}
+                  class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
+                >
+                  {{- block.settings.button_label_1 | escape -}}
+                </a>
+              {%- endif -%}
+              {%- if block.settings.button_label_2 != blank -%}
+                <a
+                  {% if block.settings.button_link_2 == blank %}
+                    role="link" aria-disabled="true"
+                  {% else %}
+                    href="{{ block.settings.button_link_2 }}"
+                  {% endif %}
+                  class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+                >
+                  {{- block.settings.button_label_2 | escape -}}
+                </a>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.image-banner.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-banner.settings.image.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "t:sections.image-banner.settings.image_2.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "t:sections.image-banner.settings.image_3.label"
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "t:sections.image-banner.settings.image_overlay_opacity.label",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.image-banner.settings.image_height.options__1.label"
+        },
+        {
+          "value": "small",
+          "label": "t:sections.image-banner.settings.image_height.options__2.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.image-banner.settings.image_height.options__3.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.image-banner.settings.image_height.options__4.label"
+        }
+      ],
+      "default": "medium",
+      "label": "t:sections.image-banner.settings.image_height.label"
+    },
+    {
+      "type": "select",
+      "id": "image_behavior",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.image_behavior.options__1.label"
+        },
+        {
+          "value": "ambient",
+          "label": "t:sections.all.animation.image_behavior.options__2.label"
+        },
+        {
+          "value": "fixed",
+          "label": "t:sections.all.animation.image_behavior.options__3.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.image_behavior.options__4.label"
+        }
+      ],
+      "default": "none",
+      "label": "t:sections.all.animation.image_behavior.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-banner.settings.content.content"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__1.label"
+        },
+        {
+          "value": "top-center",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "top-right",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__3.label"
+        },
+        {
+          "value": "middle-left",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__4.label"
+        },
+        {
+          "value": "middle-center",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__5.label"
+        },
+        {
+          "value": "middle-right",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__6.label"
+        },
+        {
+          "value": "bottom-left",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__7.label"
+        },
+        {
+          "value": "bottom-center",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__8.label"
+        },
+        {
+          "value": "bottom-right",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__9.label"
+        }
+      ],
+      "default": "middle-center",
+      "label": "t:sections.image-banner.settings.desktop_content_position.label"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.image-banner.settings.desktop_content_alignment.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_text_box",
+      "default": true,
+      "label": "t:sections.image-banner.settings.show_text_box.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-banner.settings.mobile.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_images_on_mobile",
+      "default": true,
+      "label": "t:sections.image-banner.settings.stack_images_on_mobile.label"
+    },    
+    {
+      "type": "select",
+      "id": "mobile_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.image-banner.settings.mobile_content_alignment.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_text_below",
+      "default": true,
+      "label": "t:sections.image-banner.settings.show_text_below.label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "t:sections.image-banner.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "t:sections.image-banner.blocks.heading.settings.heading.default",
+          "label": "t:sections.image-banner.blocks.heading.settings.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "hxl",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "hxxl",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h1",
+          "label": "t:sections.all.heading_size.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.image-banner.blocks.text.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "t:sections.image-banner.blocks.text.settings.text.default",
+          "label": "t:sections.image-banner.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "t:sections.image-banner.blocks.text.settings.text_style.options__1.label"
+            },
+            {
+              "value": "subtitle",
+              "label": "t:sections.image-banner.blocks.text.settings.text_style.options__2.label"
+            },
+            {
+              "value": "caption-with-letter-spacing",
+              "label": "t:sections.image-banner.blocks.text.settings.text_style.options__3.label"
+            }
+          ],
+          "default": "body",
+          "label": "t:sections.image-banner.blocks.text.settings.text_style.label"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.image-banner.blocks.buttons.name",
+      "limit": 1,
+      "settings": [
+        {
+        "type": "header",
+        "content": "t:sections.image-banner.blocks.buttons.settings.header_1.content"
+        },
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "default": "t:sections.image-banner.blocks.buttons.settings.button_label_1.default",
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_1.label",
+          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_1.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_1.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary_1",
+          "default": false,
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_1.label"
+        },
+        {
+        "type": "header",
+        "content": "t:sections.image-banner.blocks.buttons.settings.header_2.content"
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "default": "t:sections.image-banner.blocks.buttons.settings.button_label_2.default",
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_2.label",
+          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_2.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_2.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary_2",
+          "default": false,
+          "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_2.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image-banner.presets.name",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "buttons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
