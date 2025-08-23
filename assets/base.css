@@ -41,8 +41,82 @@
     background-color: #4fc3f7;
 }
 
+.text-collet-blue {
+  color: #4fc3f7;
+}
+
+.text-collet-dark {
+  color: #2d3748;
+}
+
+.text-collet-pink {
+    color: #ff6b9d;
+}
+
+.text-collet-warm-gray {
+    color: #6b7280;
+}
 
 
+.max-w-6xl {
+    max-width: 72rem;
+}
+
+@media (width >= 40rem) {
+    .sm:rounded-3xl {
+        border-radius: 1.5rem;
+    }
+    .sm:p-6 {
+        padding: calc(0.25rem * 6);
+    }
+
+    .sm:text-lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+
+    .sm:py-4 {
+      padding-block: calc(var(--spacing) * 4);
+    }
+
+}
+
+@media (width >= 48rem) {
+    .md:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.to-collet-blue {
+    --tw-gradient-to: #4fc3f7;
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+}
+
+
+.mb-1 {
+    margin-bottom: calc(var(--spacing) * 1);
+}
+
+.bg-collet-pink\/5 {
+  background-color: color-mix(in oklab, #ff6b9d 5%, transparent);
+}
+.border-collet-pink\/20 {
+  border-color:  color-mix(in oklab, #ff6b9d 20%, transparent);
+}
+
+
+.font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+}
+
+.text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+.mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+}
 
 .product-card-wrapper .card,
 .contains-card--product {
@@ -227,9 +301,9 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   list-style: none;
 }
 
-.hidden {
-  display: none !important;
-}
+/* .hidden {
+  display: none;
+} */
 
 .visually-hidden {
   position: absolute !important;
@@ -914,7 +988,7 @@ summary::-webkit-details-marker {
 /* component-grid */
 .grid {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   margin-bottom: 2rem;
   padding: 0;
   list-style: none;
@@ -927,6 +1001,12 @@ summary::-webkit-details-marker {
     column-gap: var(--grid-desktop-horizontal-spacing);
     row-gap: var(--grid-desktop-vertical-spacing);
   }
+}
+.text-collet-purple {
+    color: #8b5fbf;
+}
+.has-\[\>svg\]\:px-3:has( > svg) {
+    padding-inline: calc(var(--spacing) * 3);
 }
 
 .grid:last-child {
