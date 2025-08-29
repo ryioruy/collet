@@ -15,9 +15,15 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "translator_CKU6P9": {
+      "type": "translator",
+      "name": "Default custom section",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "translator_CKU6P9"
   ]
 }
