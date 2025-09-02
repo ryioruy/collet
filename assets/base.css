@@ -8,6 +8,15 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+.bg-background-common{
+  --tw-bg-opacity: 1;
+  background-color: #F0F0F0;
+}
+
+.tailwind.w-full.overflow-auto {
+  border-radius: 40px;
+}
+
 
 .bg-collet-purple\/10 {
         background-color: 
@@ -93,6 +102,11 @@
 /* Styling the scrollbar thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+
 }
 
 
