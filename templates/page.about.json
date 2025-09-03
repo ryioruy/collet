@@ -15,9 +15,15 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "translator_EzjhbJ": {
+      "type": "translator",
+      "name": "About Section",
+      "settings": {}
     }
   },
   "order": [
+    "translator_EzjhbJ",
     "main"
   ]
 }
