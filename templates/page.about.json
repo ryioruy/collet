@@ -16,14 +16,14 @@
         "padding_bottom": 28
       }
     },
-    "translator_EzjhbJ": {
-      "type": "translator",
+    "about_8Uf9dF": {
+      "type": "about",
       "name": "About Section",
       "settings": {}
     }
   },
   "order": [
-    "translator_EzjhbJ",
-    "main"
+    "main",
+    "about_8Uf9dF"
   ]
 }
