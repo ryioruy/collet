@@ -17,6 +17,10 @@
   border-radius: 40px;
 }
 
+.main-page-title {
+  display: none;
+}
+
 
 .bg-collet-purple\/10 {
         background-color: 
