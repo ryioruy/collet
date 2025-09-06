@@ -17,10 +17,42 @@
   border-radius: 40px;
 }
 
-.main-page-title {
-  display: none;
+.bg-black\/10 {
+    background-color: color-mix(in oklab, #000 10%, transparent);
 }
 
+.rounded-full {
+    border-radius: 3.40282e38px;
+}
+
+.animate-gentle-float {
+    animation: 4s ease-in-out infinite gentle-float;
+    display: block !important;
+}
+
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-fade-in-up {
+    animation: .8s ease-out forwards fade-in-up;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: trannslateY(0);
+  }
+}
 
 .bg-collet-purple\/10 {
         background-color: 
@@ -34,6 +66,11 @@
 .bg-white\/80 {
         background-color: 
  color-mix(in oklab, #fff 80%, transparent);
+}
+
+.bg-white\/10 {
+        background-color: 
+ color-mix(in oklab, #fff 10%, transparent);
 }
 
 .bg-collet-blue\/10 {
@@ -60,6 +97,10 @@
 
 .text-collet-blue {
   color: #4fc3f7;
+}
+
+.text-white {
+  color: #fff;
 }
 
 .rounded-md {
@@ -143,6 +184,18 @@
     }
 }
 
+@media (width >= 64rem) {
+    .lg\:text-6xl {
+        font-size: var(--text-6xl);
+        line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+}
+
+.font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+}
+
 .duration-300 {
     --tw-duration: .3s;
     transition-duration: .3s;
@@ -170,6 +223,11 @@
   --tw-gradient-to: color-mix(in oklab, #26d0ce 10%, transparent);
   --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
 
+}
+
+.to-collet-mint {
+    --tw-gradient-to: #26d0ce;
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
 }
 
 .border-collet-mint\/20 {
@@ -262,6 +320,12 @@
 
 .via-white {
     --tw-gradient-via: #fff;
+    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-via-stops);
+}
+
+.via-collet-purple {
+    --tw-gradient-via: #8b5fbf;
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
     --tw-gradient-stops: var(--tw-gradient-via-stops);
 }
